@@ -36,7 +36,7 @@ jobs:
       # Step 5: Merge upstream changes into fork's master branch
       - name: Merge Upstream into Fork
         run: |
-          git merge -X theirs upstream/master --allow-unrelated-histories || true
+          git rebase upstream/master
           git push https://$TOKEN@github.com/Hebo/yt-dlp refs/heads/master
         env:
           TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
