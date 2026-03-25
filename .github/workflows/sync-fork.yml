@@ -38,6 +38,6 @@ jobs:
       - name: Merge Upstream into Fork
         run: |
           git rebase upstream/master
-          git push https://$TOKEN@github.com/Hebo/yt-dlp refs/heads/master
+          git push --force https://$TOKEN@github.com/Hebo/yt-dlp refs/heads/master
         env:
           TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
