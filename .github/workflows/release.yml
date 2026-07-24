@@ -308,16 +308,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         if: env.TARGET_REPO == github.repository && env.TARGET_TAG != env.VERSION
         run: |
-          gh release delete --yes --cleanup-tag "${TARGET_TAG}" || true
-          git tag --delete "${TARGET_TAG}" || true
+          gh release delete --yes --cleanup-tag "master-rls" || true
+          git tag --delete "master-rls" || true
           sleep 5  # Enough time to cover deletion race condition
 
       - name: Push tag
         if: env.TARGET_REPO == github.repository
         run: |
-          git show-ref master
-          git tag "${TARGET_TAG}" "${HEAD_SHA}"
-          git push origin "${TARGET_TAG}"
+          git tag "master-rls" "${HEAD_SHA}"
+          git push origin "master-rls"
           sleep 5  # Enough time to cover git-push vs gh-release-create race condition
 
       - name: Publish release
@@ -337,4 +336,4 @@ jobs:
           if ((PRERELEASE)); then
             gh_options+=(--prerelease)
           fi
-          gh release create "${gh_options[@]}" "${TARGET_TAG}" artifact/*
+          gh release create "${gh_options[@]}" "master-rls" artifact/*
